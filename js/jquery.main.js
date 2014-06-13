@@ -12,6 +12,7 @@ var btnTop = $('<a class="scrollerUp" href="#">Вверх</a>').prependTo('body'
   scrollEl,
   scrollDistance,
   tabStyleRule,
+  resizeTimer,
   timer;
 
 
@@ -45,9 +46,7 @@ $('head').append(tabStyleSheet);
 
 btnTop.on('click', function(e){
   e.preventDefault();
-  scrollAreaHeight = scrollArea.height();
-  scrollDistance = contentHeight - scrollAreaHeight;
-  clearTimeout(timer);
+  calculate();
   if(!clicked){
     clicked = true;
     timer = setTimeout(function(){
@@ -62,9 +61,7 @@ btnTop.on('click', function(e){
 
 btnBottom.on('click', function(e){
   e.preventDefault();
-  scrollAreaHeight = scrollArea.height();
-  scrollDistance = contentHeight - scrollAreaHeight;
-  clearTimeout(timer);
+  calculate();
   if(!clicked){
     clicked = true;
     timer = setTimeout(function(){
@@ -100,7 +97,19 @@ function checkScroll(el){
 function getContentHeight(){
   var result = 0;
   (scrollEl.is(window) ? doc : scrollEl.children()).each(function(){
-    result += this.offsetHeight;
+    result += $(this).outerHeight(true);
   });
   return result;
 }
+
+function calculate(){
+  contentHeight = getContentHeight();
+  scrollAreaHeight = scrollArea.height();
+  scrollDistance = contentHeight - scrollAreaHeight;
+  if(timer) clearTimeout(timer);
+}
+
+win.on('resize', function(){
+  if(resizeTimer) clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(calculate, 200);
+});
