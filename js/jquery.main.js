@@ -97,7 +97,7 @@ function checkScroll(el){
 function getContentHeight(){
   var result = 0;
   (scrollEl.is(window) ? doc : scrollEl.children()).each(function(){
-    result += $(this).outerHeight(true);
+    result += this.offsetHeight;
   });
   return result;
 }
