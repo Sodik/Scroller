@@ -1,0 +1,17 @@
+{
+	"manifest_version": 2,
+	"name": "Scroller",
+	"description": "Scroll page to top and bottom",
+	"version": "1",
+	"permissions": [ "tabs" ],
+	"content_scripts": [
+		{
+			"matches": ["http://*/*", "https://*/*"],
+			"js": ["js/jquery.js", "js/jquery.main.js"]
+		}
+	],
+	"permissions": [
+		"http://*/*",
+		"https://*/*"
+	]
+}
