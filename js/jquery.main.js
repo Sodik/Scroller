@@ -44,6 +44,8 @@ document.head.appendChild(tabStyleSheet);
 
 $('<a class="scrollerUp" style="position: fixed;" href="#">Вверх</a><a class="scrollerDown" style="position: fixed;" href="#">Вниз</a>').appendTo(body);
 
+win.scrollTop(0);
+
 body.on('click', '.scrollerUp', function(e){
   e.preventDefault();
   calculate();
