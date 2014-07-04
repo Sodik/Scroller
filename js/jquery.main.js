@@ -11,6 +11,7 @@ var tabStyleSheet = document.createElement('style'),
   scrollDistance,
   tabStyleRule,
   resizeTimer,
+  buttons,
   timer;
 
 
@@ -42,7 +43,7 @@ if (tabStyleSheet.styleSheet) {
 }
 document.head.appendChild(tabStyleSheet);
 
-$('<a class="scrollerUp" style="position: fixed;" href="#">Вверх</a><a class="scrollerDown" style="position: fixed;" href="#">Вниз</a>').appendTo(body);
+buttons = $('<a class="scrollerUp" style="position: fixed;" href="#">Вверх</a><a class="scrollerDown" style="position: fixed;" href="#">Вниз</a>').appendTo(body);
 
 win.scrollTop(0);
 
@@ -96,20 +97,31 @@ function checkScroll(el){
 
 function getContentHeight(){
   var result = 0;
-  (scrollEl.is(window) ? doc : scrollEl.children()).each(function(){
-    result += this.offsetHeight;
-  });
+  if(scrollEl.is('body')){
+    result = doc.height();
+  }else{
+    scrollEl.children().each(function(){
+      result += this.offsetHeight;
+    });
+  }
   return result;
 }
 
 function calculate(){
+  if(timer) clearTimeout(timer);
   contentHeight = getContentHeight();
   scrollAreaHeight = scrollArea.height();
   scrollDistance = contentHeight - scrollAreaHeight;
-  if(timer) clearTimeout(timer);
+  if(scrollDistance > 0){
+    buttons.show()
+  }else{
+    buttons.hide();
+  }
 }
 
 win.on('resize', function(){
   if(resizeTimer) clearTimeout(resizeTimer);
   resizeTimer = setTimeout(calculate, 200);
 });
+
+calculate();
