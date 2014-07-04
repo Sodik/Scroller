@@ -1,6 +1,4 @@
-var btnTop = $('<a class="scrollerUp" href="#">Вверх</a>').prependTo('body'),
-  btnBottom = $('<a class="scrollerDown" href="#">Вниз</a>').prependTo('body'),
-  tabStyleSheet = document.createElement('style'),
+var tabStyleSheet = document.createElement('style'),
   body = $('body'),
   win = $(window),
   doc = $(document),
@@ -42,9 +40,11 @@ if (tabStyleSheet.styleSheet) {
 } else {
   tabStyleSheet.appendChild(document.createTextNode(tabStyleRule));
 }
-$('head').append(tabStyleSheet);
+document.head.appendChild(tabStyleSheet);
 
-btnTop.on('click', function(e){
+$('<a class="scrollerUp" style="position: fixed;" href="#">Вверх</a><a class="scrollerDown" style="position: fixed;" href="#">Вниз</a>').appendTo(body);
+
+body.on('click', '.scrollerUp', function(e){
   e.preventDefault();
   calculate();
   if(!clicked){
@@ -57,9 +57,7 @@ btnTop.on('click', function(e){
     clicked = false;
     scrollEl.stop().animate({scrollTop: 0}, animSpeed);
   }
-});
-
-btnBottom.on('click', function(e){
+}).on('click', '.scrollerDown', function(e){
   e.preventDefault();
   calculate();
   if(!clicked){
